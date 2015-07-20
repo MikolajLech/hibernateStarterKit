@@ -1,18 +1,19 @@
 package pl.spring.demo.mapper;
 
-import pl.spring.demo.entity.AuthorEntity;
-import pl.spring.demo.entity.BookEntity;
-import pl.spring.demo.to.BookTo;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import pl.spring.demo.entity.AuthorEntity;
+import pl.spring.demo.entity.BookEntity;
+import pl.spring.demo.entity.LibraryEntity;
+import pl.spring.demo.to.BookTo;
 
 public class BookMapper {
 
     public static BookTo map(BookEntity bookEntity) {
         if (bookEntity != null) {
-            return new BookTo(bookEntity.getId(), bookEntity.getTitle(), mapAuthors(bookEntity.getAuthors()));
+            return new BookTo(bookEntity.getId(), bookEntity.getTitle(), mapAuthors(bookEntity.getAuthors()), mapLibrary(bookEntity.getLibrary()));
         }
         return null;
     }
@@ -38,5 +39,12 @@ public class BookMapper {
                     (", "));
         }
         return null;
+    }
+    
+    private static String mapLibrary(LibraryEntity library) {
+    	if (library != null) {
+    		return library.getLibraryName();
+    	}
+    	return null;
     }
 }
