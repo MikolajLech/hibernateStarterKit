@@ -6,7 +6,8 @@
 </head>
 <body>
     <div th:each="book : ${books}">
-        <p th:text="${book.title}">title</p>
+<!--         <p th:text="${book.title}">title</p> -->
+        <p th:inline="text">[[${book.title}]] z biblioteki nr. [[${book.library}]]</p>
     </div>
 </body>
 </html>
