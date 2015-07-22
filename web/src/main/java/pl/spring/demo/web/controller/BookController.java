@@ -40,13 +40,21 @@ public class BookController {
 		return "deletedBook";
 	}
 	
+
 	@RequestMapping(value = "/addBook", method = RequestMethod.GET)
 	public String addBook(Model model) {
 		BookTo book = new BookTo();
 		model.addAttribute("book", book);
 		return "addBook";
 	}
-	
+
+//	@RequestMapping(value = "/deletedBook", method = RequestMethod.POST)
+//	public String deletedBook(Model model, LibraryTo library) {
+//		model.addAttribute("deletedLibrary", deletedLibrary);
+//		bookService.addBook(book);
+//		return "addedBook";
+//	}
+		
 	@RequestMapping(value = "/addedBook", method = RequestMethod.POST)
 	public String addBook(Model model, BookTo book) {
 		model.addAttribute("book", book);

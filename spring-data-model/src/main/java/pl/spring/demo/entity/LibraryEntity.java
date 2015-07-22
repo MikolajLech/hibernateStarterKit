@@ -13,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "LIBRARY"/*, uniqueConstraints = @UniqueConstraint (columnNames = "LIBRARY_NAME")*/)
@@ -25,7 +24,7 @@ public class LibraryEntity implements Serializable {
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 	@Column(name = "name", unique = true, nullable = false, length = 50)
-	private String libraryName;
+	private String name;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "library", cascade=CascadeType.ALL)
 	private Set<BookEntity> booksInLibrary = new HashSet<BookEntity>(0);
 	
@@ -35,7 +34,7 @@ public class LibraryEntity implements Serializable {
 	
 	public LibraryEntity(Long id, String name) {
 		this.id = id;
-		this.libraryName = name;
+		this.name = name;
 	}
 	
 	public LibraryEntity(Long id) {
@@ -51,11 +50,11 @@ public class LibraryEntity implements Serializable {
     }
     
     public String getLibraryName() {
-    	return libraryName;
+    	return name;
     }
     
     public void setLibraryName(String name) {
-    	this.libraryName = name;
+    	this.name = name;
     }
 
     public Set<BookEntity> getBooksInLibrary() {

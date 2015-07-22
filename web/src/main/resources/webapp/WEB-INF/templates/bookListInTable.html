@@ -11,12 +11,14 @@
 	<table>
 		<tr>
 			<th>ID</th>
+			<th>BIBILOTEKA</th>
 			<th>TYTUL</th>
 			<th>AUTOR</th>
 			<th>USUN</th>
 		</tr>
 		<tr align="center" th:each="book : ${books}">
 			<td th:text="${book.id}">ID</td>
+			<td th:text="${book.library}">BIBLIOTEKA</td>
 			<td th:text="${book.title}">TYTUL</td>
 			<td th:text="${book.authors}">AUTOR</td>
 			<td class="deleteBookCell">
@@ -29,6 +31,11 @@
 			<td class="addNewBookCell" colspan = "4">
 				<form action="#" th:attr="action=@{${'/addBook'}}" method="get">
 					<button type="submit">Add new book</button>
+				</form>
+			</td>
+			<td class="deleteLibrary" colspan = "4">
+				<form action="#" th:attr="action=@{${'/deleteLibrary'}}" method="get">
+					<button type="submit">Delete library</button>
 				</form>
 			</td>
 		</tr>
