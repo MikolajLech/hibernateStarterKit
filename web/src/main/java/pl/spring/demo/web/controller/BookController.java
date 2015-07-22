@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import pl.spring.demo.service.BookService;
+import pl.spring.demo.service.LibraryService;
 import pl.spring.demo.to.BookTo;
+import pl.spring.demo.to.LibraryTo;
 
 @Controller
 public class BookController {
@@ -40,12 +42,20 @@ public class BookController {
 		return "deletedBook";
 	}
 	
+//	@RequestMapping(value = "/deletedBook", method = RequestMethod.POST)
+//	public String deletedBook(Model model, LibraryTo library) {
+//		model.addAttribute("deletedLibrary", deletedLibrary);
+//		bookService.addBook(book);
+//		return "addedBook";
+//	}
+	
 	@RequestMapping(value = "/addBook", method = RequestMethod.GET)
 	public String addBook(Model model) {
 		BookTo book = new BookTo();
 		model.addAttribute("book", book);
 		return "addBook";
 	}
+	
 	
 	@RequestMapping(value = "/addedBook", method = RequestMethod.POST)
 	public String addBook(Model model, BookTo book) {
