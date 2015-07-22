@@ -1,4 +1,5 @@
 /target/
+<<<<<<< HEAD
 /bin/
 
 
@@ -68,3 +69,5 @@ local.properties
 # TeXlipse plugin
 .texlipse
 
+=======
+>>>>>>> refs/heads/inProgress

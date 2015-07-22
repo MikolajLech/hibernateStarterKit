@@ -1,0 +1,15 @@
+@CHARSET "ISO-8859-1";
+
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+td.addNewBookCell {
+	text-align: center; 
+ 	background-color: grey;
+}
+
+td.deleteBookCell {
+	background-color: red;
+}

@@ -1,4 +1,5 @@
 /target/
+<<<<<<< HEAD
 
 # Created by https://www.gitignore.io
 
@@ -66,3 +67,5 @@ local.properties
 # TeXlipse plugin
 .texlipse
 
+=======
+>>>>>>> refs/heads/inProgress

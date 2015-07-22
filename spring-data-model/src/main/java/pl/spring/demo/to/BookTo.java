@@ -8,12 +8,18 @@ public class BookTo {
     
     public BookTo() {
     }
-
+    
     public BookTo(Long id, String title, String authors, String library) {
         this.id = id;
         this.title = title;
         this.authors = authors;
         this.library = library;
+    }
+    
+    public BookTo(BookTo copy) {
+    	this.id = copy.id;
+    	this.title = copy.title;
+    	this.authors = copy.authors;
     }
 
     public Long getId() {
