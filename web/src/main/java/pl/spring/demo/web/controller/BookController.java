@@ -15,17 +15,17 @@ import pl.spring.demo.to.BookTo;
 
 @Controller
 public class BookController {
-    @Autowired
-    private BookService bookService;
+	@Autowired
+	private BookService bookService;
 
-    @RequestMapping(value = "/books", method = RequestMethod.GET)
-    public String books(Map<String, Object> params) {
-        final List<BookTo> allBooks = bookService.findAllBooks();
-        params.put("books", allBooks);
-        return "bookList";
-    }
-    
-    @RequestMapping(value = "/bookListInTable", method = RequestMethod.GET)
+	@RequestMapping(value = "/books", method = RequestMethod.GET)
+	public String books(Map<String, Object> params) {
+		final List<BookTo> allBooks = bookService.findAllBooks();
+		params.put("books", allBooks);
+		return "bookList";
+	}
+
+	@RequestMapping(value = "/bookListInTable", method = RequestMethod.GET)
 	public String bookList(Map<String, Object> params) {
 		final List<BookTo> allBooks = bookService.findAllBooks();
 		params.put("books", allBooks);
@@ -39,7 +39,6 @@ public class BookController {
 		model.addAttribute("deletedBook", deletedBook);
 		return "deletedBook";
 	}
-	
 
 	@RequestMapping(value = "/addBook", method = RequestMethod.GET)
 	public String addBook(Model model) {
@@ -48,33 +47,34 @@ public class BookController {
 		return "addBook";
 	}
 
-//	@RequestMapping(value = "/deletedBook", method = RequestMethod.POST)
-//	public String deletedBook(Model model, LibraryTo library) {
-//		model.addAttribute("deletedLibrary", deletedLibrary);
-//		bookService.addBook(book);
-//		return "addedBook";
-//	}
-		
+	// @RequestMapping(value = "/deletedBook", method = RequestMethod.POST)
+	// public String deletedBook(Model model, LibraryTo library) {
+	// model.addAttribute("deletedLibrary", deletedLibrary);
+	// bookService.addBook(book);
+	// return "addedBook";
+	// }
+
 	@RequestMapping(value = "/addedBook", method = RequestMethod.POST)
 	public String addBook(Model model, BookTo book) {
 		model.addAttribute("book", book);
 		bookService.addBook(book);
 		return "addedBook";
 	}
-	
+
 	@RequestMapping(value = "/addedBook/{id}/{title}/{authors}/{library}", method = RequestMethod.POST)
-	public String addBook(Model model, @PathVariable("id") Long id, 
-			@PathVariable("title") String title, @PathVariable("authors") String authors,
+	public String addBook(Model model, @PathVariable("id") Long id,
+			@PathVariable("title") String title,
+			@PathVariable("authors") String authors,
 			@PathVariable("library") String library) {
 		BookTo book = new BookTo(id, title, authors, library);
 		model.addAttribute("book", book);
-		if(bookService.findBookById(book.getId()) != null) {
+		if (bookService.findBookById(book.getId()) != null) {
 			return "bookAlreadyExists";
 		}
 		bookService.addBook(book);
 		return "addedBook";
 	}
-	
+
 	@RequestMapping(value = "/newBook", method = RequestMethod.GET)
 	public String showWebNewBook() {
 		return "newBook";
