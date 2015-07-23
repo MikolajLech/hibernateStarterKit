@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import pl.spring.demo.dao.LibraryDao;
 import pl.spring.demo.entity.LibraryEntity;
 import pl.spring.demo.mapper.LibraryMapper;
 import pl.spring.demo.repository.LibraryRepository;
@@ -18,6 +19,8 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Autowired
     private LibraryRepository libraryRepository;
+    @Autowired
+    private LibraryDao libraryDao;
 
     @Override
     @Transactional(readOnly = false)
@@ -55,11 +58,11 @@ public class LibraryServiceImpl implements LibraryService {
 	@Override
 	@Transactional(readOnly = false)
 	public LibraryTo delete(Long libraryId) {
-		LibraryEntity libraryEntity = libraryRepository.findOne(libraryId);
+		LibraryEntity libraryEntity = libraryDao.findOne(libraryId);
 //		if(libraryEntity == null)
 //			throw new IllegalArgumentException();
 		LibraryTo libraryCopy = new LibraryTo(LibraryMapper.map(libraryEntity));
-		libraryRepository.delete(libraryEntity);
+		libraryDao.delete(libraryEntity);
 		return libraryCopy;
 	}
 }

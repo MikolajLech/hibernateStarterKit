@@ -30,7 +30,7 @@ public class BookDaoImplTest {
         assertNotNull(bookEntity);
         assertEquals("Pierwsza książka", bookEntity.getTitle());
     }
-
+    
     @Test
     public void testShouldFindBooksByTitle() {
         // given

@@ -1,17 +1,20 @@
 package pl.spring.demo.dao;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import pl.spring.demo.entity.LibraryEntity;
-
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import pl.spring.demo.repository.LibraryRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "CommonDaoTest-context.xml")
@@ -19,6 +22,10 @@ public class LibraryDaoImplTest {
 
     @Autowired
     private LibraryDao libraryDao;
+    @Autowired
+    private LibraryRepository repo;
+    @Autowired
+    private BookDao bookDao;
 
     @Test
     public void testShouldFindBookById1() {
@@ -29,6 +36,19 @@ public class LibraryDaoImplTest {
         // then
         assertNotNull(libraryEntity);
         assertEquals("Pierwsza biblioteka", libraryEntity.getLibraryName());
+    }
+    
+    @Test
+    public void testShouldDeleteLibraryWithAllBooks() {
+    	// given
+    	final long libraryId = 1;
+    	// when
+//    	TransactionTemplate
+    	libraryDao.delete(libraryId);
+    	// then
+    	assertNull(libraryDao.findOne(1L));
+    	assertNull(bookDao.findOne(1L));
+    	assertNull(bookDao.findOne(6L));
     }
     
     @Test
