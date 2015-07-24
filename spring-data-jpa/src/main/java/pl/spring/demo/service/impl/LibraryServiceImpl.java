@@ -58,11 +58,12 @@ public class LibraryServiceImpl implements LibraryService {
 	@Override
 	@Transactional(readOnly = false)
 	public LibraryTo delete(Long libraryId) {
-		LibraryEntity libraryEntity = libraryDao.findOne(libraryId);
+//		LibraryEntity libraryEntity = libraryDao.findOne(libraryId);
+		LibraryEntity libraryEntity = libraryRepository.findOne(libraryId);
 //		if(libraryEntity == null)
 //			throw new IllegalArgumentException();
 		LibraryTo libraryCopy = new LibraryTo(LibraryMapper.map(libraryEntity));
-		libraryDao.delete(libraryEntity);
+		libraryRepository.delete(libraryEntity);
 		return libraryCopy;
 	}
 }

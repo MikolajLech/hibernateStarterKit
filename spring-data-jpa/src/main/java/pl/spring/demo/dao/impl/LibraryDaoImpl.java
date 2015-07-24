@@ -4,10 +4,12 @@ import java.util.List;
 
 import javax.persistence.TypedQuery;
 
+import org.springframework.stereotype.Repository;
+
 import pl.spring.demo.dao.LibraryDao;
 import pl.spring.demo.entity.LibraryEntity;
 
-
+@Repository
 public class LibraryDaoImpl extends AbstractDao<LibraryEntity, Long> implements LibraryDao {
 
     @Override

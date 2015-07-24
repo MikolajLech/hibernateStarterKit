@@ -30,5 +30,7 @@
     </bean>
 
     <jpa:repositories base-package="pl.spring.demo.repository" />
+    
+    
 
 </beans>
