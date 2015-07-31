@@ -1,7 +1,0 @@
-pl\spring\demo\mapper\BookMapper.class
-pl\spring\demo\service\impl\BookServiceImpl.class
-pl\spring\demo\service\BookService.class
-pl\spring\demo\service\impl\LibraryServiceImpl.class
-pl\spring\demo\service\LibraryService.class
-pl\spring\demo\repository\BookRepository.class
-pl\spring\demo\repository\LibraryRepository.class

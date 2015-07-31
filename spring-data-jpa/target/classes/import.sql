@@ -23,3 +23,4 @@ insert into book_author(book_id, author_id) values (3, 4);
 insert into book_author(book_id, author_id) values (4, 4);
 insert into book_author(book_id, author_id) values (5, 5);
 insert into book_author(book_id, author_id) values (6, 5);
+

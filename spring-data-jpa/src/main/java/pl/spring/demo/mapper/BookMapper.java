@@ -20,7 +20,7 @@ public class BookMapper {
 
     public static BookEntity map(BookTo bookTo) {
         if (bookTo != null) {
-            return new BookEntity(bookTo.getId(), bookTo.getTitle());
+            return new BookEntity(bookTo.getId(), bookTo.getTitle(), bookTo.getLibraryId());
         }
         return null;
     }

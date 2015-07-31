@@ -4,7 +4,8 @@ public class BookTo {
     private Long id;
     private String title;
     private String authors;
-    private String library;
+    private String libraryName;
+	private Long libraryId;
     
     public BookTo() {
     }
@@ -13,13 +14,15 @@ public class BookTo {
         this.id = id;
         this.title = title;
         this.authors = authors;
-        this.library = library;
+        this.libraryName = library;
     }
     
     public BookTo(BookTo copy) {
     	this.id = copy.id;
     	this.title = copy.title;
     	this.authors = copy.authors;
+    	this.libraryName = copy.libraryName;
+    	this.libraryId = copy.libraryId;
     }
 
     public Long getId() {
@@ -47,10 +50,14 @@ public class BookTo {
     }
     
     public String getLibrary() {
-    	return library;
+    	return libraryName;
     }
     
     public void setLibrary(String library) {
-    	this.library = library;
+    	this.libraryName = library;
     }
+
+	public Long getLibraryId() {
+		return libraryId;
+	}
 }

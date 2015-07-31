@@ -16,25 +16,27 @@ import pl.spring.demo.to.BookTo;
 @Controller
 public class BookController {
 	@Autowired
-	private BookService bookService;
+//	@Qualifier("bookServiceCriteriaImpl")
+	private BookService bookServiceCriteria;
 
 	@RequestMapping(value = "/books", method = RequestMethod.GET)
 	public String books(Map<String, Object> params) {
-		final List<BookTo> allBooks = bookService.findAllBooks();
+		final List<BookTo> allBooks = bookServiceCriteria.findAllBooks();
 		params.put("books", allBooks);
 		return "bookList";
 	}
 
 	@RequestMapping(value = "/bookListInTable", method = RequestMethod.GET)
 	public String bookList(Map<String, Object> params) {
-		final List<BookTo> allBooks = bookService.findAllBooks();
+//		final List<BookTo> allBooks = bookServiceCriteria.findAllBooks();
+		final List<BookTo> allBooks = bookServiceCriteria.findBooksByTitle("Pierwsza książka");
 		params.put("books", allBooks);
 		return "bookListInTable";
 	}
 
 	@RequestMapping(value = "/deleteBook/{id}", method = RequestMethod.POST)
 	public String deleteBook(@PathVariable("id") Long bookId, Model model) {
-		BookTo deletedBook = bookService.delete(bookId);
+		BookTo deletedBook = bookServiceCriteria.delete(bookId);
 		System.out.println(deletedBook.getTitle());
 		model.addAttribute("deletedBook", deletedBook);
 		return "deletedBook";
@@ -50,14 +52,14 @@ public class BookController {
 	// @RequestMapping(value = "/deletedBook", method = RequestMethod.POST)
 	// public String deletedBook(Model model, LibraryTo library) {
 	// model.addAttribute("deletedLibrary", deletedLibrary);
-	// bookService.addBook(book);
+	// bookServiceCriteria.addBook(book);
 	// return "addedBook";
 	// }
 
 	@RequestMapping(value = "/addedBook", method = RequestMethod.POST)
 	public String addBook(Model model, BookTo book) {
 		model.addAttribute("book", book);
-		bookService.addBook(book);
+		bookServiceCriteria.addBook(book);
 		return "addedBook";
 	}
 
@@ -68,10 +70,10 @@ public class BookController {
 			@PathVariable("library") String library) {
 		BookTo book = new BookTo(id, title, authors, library);
 		model.addAttribute("book", book);
-		if (bookService.findBookById(book.getId()) != null) {
+		if (bookServiceCriteria.findBookById(book.getId()) != null) {
 			return "bookAlreadyExists";
 		}
-		bookService.addBook(book);
+		bookServiceCriteria.addBook(book);
 		return "addedBook";
 	}
 

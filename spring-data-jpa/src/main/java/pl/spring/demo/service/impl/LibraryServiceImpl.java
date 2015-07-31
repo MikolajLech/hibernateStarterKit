@@ -20,7 +20,7 @@ public class LibraryServiceImpl implements LibraryService {
     @Autowired
     private LibraryRepository libraryRepository;
     @Autowired
-    private LibraryDao libraryDao;
+    private LibraryDao libraryDao;	
 
     @Override
     @Transactional(readOnly = false)

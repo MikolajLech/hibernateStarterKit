@@ -6,7 +6,7 @@
 <title>Książka została dodana</title>
 </head>
 <body>
-	<p th:inline="text" >Książka [[${book.title}]] [[${book.authors}]] została dodana.</p>
+	<p th:inline="text" >Książka [[${book.title}]] [[${book.authors}]] została dodana do biblioteki [[book.library]].</p>
 	<form action="#" th:attr="action=@{${'/bookListInTable'}}" method="get">
 		<button type="submit">Lista ksiazek</button>
 	</form>
