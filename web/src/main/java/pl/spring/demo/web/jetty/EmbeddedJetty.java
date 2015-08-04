@@ -1,5 +1,12 @@
 package pl.spring.demo.web.jetty;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -10,8 +17,6 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
-
-import java.io.IOException;
 
 public class EmbeddedJetty {
 
@@ -24,7 +29,38 @@ public class EmbeddedJetty {
     private static final String DEFAULT_PROFILE = "dev";
 
     public static void main(String[] args) throws Exception {
-        new EmbeddedJetty().startJetty(DEFAULT_PORT);
+        
+    	new EmbeddedJetty().startJetty(DEFAULT_PORT);
+//    	Server server = new Server(DEFAULT_PORT);
+//    	server.start();
+    	
+        SwingUtilities.invokeLater(new Runnable() {
+        	@Override
+        	public void run() {
+        		EmbeddedJetty.logger.debug("Starting application");	
+        		
+        		SwingApp2 swingApp2 = new SwingApp2();
+        		swingApp2.setTitle("Simple swing application.");
+        		swingApp2.setSize(800, 600);
+        		swingApp2.setLocationRelativeTo(null);
+        		swingApp2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        		swingApp2.setVisible(true);
+        		
+        		swingApp2.addWindowListener(new WindowAdapter() {
+        			@Override
+        			public void windowClosing(WindowEvent e) {
+        				EmbeddedJetty.logger.debug("Closing server");
+//        				try {
+//							server.stop();
+//						} catch (Exception e1) {
+//							// TODO Auto-generated catch block
+//							e1.printStackTrace();
+//						}
+        				//close server here
+        			}
+				});
+        	}
+        });
     }
 
     private void startJetty(int port) throws Exception {
@@ -32,7 +68,7 @@ public class EmbeddedJetty {
         server.setHandler(getServletContextHandler(getContext()));
         server.start();
         logger.info("Server started at port {}", port);
-        server.join();
+//        server.join();
     }
 
     private static ServletContextHandler getServletContextHandler(WebApplicationContext context) throws IOException {
@@ -51,5 +87,14 @@ public class EmbeddedJetty {
         context.getEnvironment().setDefaultProfiles(DEFAULT_PROFILE);
         return context;
     }
+    
+//    public void registerShutDownHook() {
+//    	Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+//    		@Override
+//    		public void run() {
+//    			close();
+//    		}
+//    	}));
+//    }
 
 }

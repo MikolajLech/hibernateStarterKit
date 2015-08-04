@@ -20,7 +20,8 @@
             <bean class="com.fasterxml.jackson.databind.ObjectMapper"/>
         </property>
     </bean>
-    
+
+    <bean id="bookDaoImpl" class="pl.spring.demo.dao.impl.BookDaoImpl"/>
 	<bean id="bookServiceImpl" class="pl.spring.demo.service.impl.BookServiceImpl"/>
 	<bean id="bookServiceCriteria" class="pl.spring.demo.service.impl.BookServiceCriteria"/>
 

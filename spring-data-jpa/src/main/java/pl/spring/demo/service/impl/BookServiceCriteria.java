@@ -1,8 +1,10 @@
 package pl.spring.demo.service.impl;
 
-import static pl.spring.demo.entity.QBookEntity.bookEntity;
-
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,7 @@ import pl.spring.demo.repository.BookRepository;
 import pl.spring.demo.service.BookService;
 import pl.spring.demo.to.BookTo;
 
-import com.mysema.query.jpa.hibernate.HibernateQuery;
+import com.mysema.query.jpa.impl.JPAQuery;
 
 @Service
 @Transactional(readOnly = true)
@@ -23,15 +25,27 @@ public class BookServiceCriteria implements BookService {
 	@Autowired
 	private BookRepository bookRepository;
 
-	
 	public List<BookTo> findBooksByTitle(String title) {
-		HibernateQuery qry = createQuery(bookEntity);
-		qry.where(bookEntity.title.like(title));
-		return BookMapper.map2To(qry.list(bookEntity));
+		EntityManager em = Persistence.createEntityManagerFactory("default").createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		JPAQuery query = new JPAQuery(em);
+		QBookEntity book = QBookEntity.bookEntity;
+		query.from(book)
+				.where(book.title.startsWith("Pierwsza"))
+				.distinct();
+//		return query.list(new BookEntity(book.id, book.title, book.library));
+		return null;
 	}
-	private HibernateQuery createQuery(QBookEntity bookentity) {
-		return new HibernateQuery().from(bookentity);
-	}
+	
+//	public List<BookTo> findBooksByTitle(String title) {
+//		HibernateQuery qry = createQuery(bookEntity);
+//		qry.where(bookEntity.title.like(title));
+//		return BookMapper.map2To(qry.list(bookEntity));
+//	}
+//	private HibernateQuery createQuery(QBookEntity bookentity) {
+//		return new HibernateQuery().from(bookentity);
+//	}
 	
     @Override
     public List<BookTo> findAllBooks() {

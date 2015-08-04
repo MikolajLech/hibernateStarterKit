@@ -1,10 +1,13 @@
 package pl.spring.demo.dao.impl;
 
-import pl.spring.demo.dao.BookDao;
-import pl.spring.demo.entity.BookEntity;
+import java.util.List;
 
 import javax.persistence.TypedQuery;
-import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import pl.spring.demo.dao.BookDao;
+import pl.spring.demo.entity.BookEntity;
 
 public class BookDaoImpl extends AbstractDao<BookEntity, Long> implements BookDao {
 
