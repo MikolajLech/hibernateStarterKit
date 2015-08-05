@@ -7,6 +7,8 @@ import java.awt.EventQueue;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,22 +23,18 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import pl.spring.demo.dao.impl.BookDaoImpl;
-import pl.spring.demo.mapper.BookMapper;
-import pl.spring.demo.service.BookService;
-import pl.spring.demo.service.impl.BookServiceImpl;
 import pl.spring.demo.to.BookTo;
 
 public class SwingApp extends JFrame {
 
 	private JPanel contentPanel;
 	private JTextField txtBookList;
-	private JTable table;
 	private JButton btnAddBook, btnDeleteBook;
-	private List<BookTo> bookList = new ArrayList<BookTo>();
+//	private List<BookTo> bookList = new ArrayList<BookTo>();
 
 	// @Autowired
 	// @Qualifier("bookServiceImpl")
-	private BookService bookServiceImpl = new BookServiceImpl();
+//	private BookService bookServiceImpl = new BookServiceImpl();
 	private Panel bookListPanel;
 	private Panel bookDeleted;
 	private JTextField BookDeleted;
@@ -49,6 +47,7 @@ public class SwingApp extends JFrame {
 //	 List<BookTo> list = Collections.synchronizedList(bookService.findAllBooks());
 //	 List<BookTo> list = BookMapper.map2To(bookDaoImpl.findAll());
 	 List<BookTo> list = new ArrayList<BookTo>();
+	 private JTable bookListTable;
 
 	/**
 	 * Launch the application.
@@ -85,24 +84,40 @@ public class SwingApp extends JFrame {
 
 		setName("mainFrame");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(200, 200, 596, 480);
 		contentPanel = new JPanel();
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPanel);
 		contentPanel.setLayout(new CardLayout(0, 0));
 
-		DefaultTableModel model = new DefaultTableModel();
-		model.addColumn("BookId");
-		model.addColumn("title");
-		model.addColumn("authors");
+//		DefaultTableModel model = new DefaultTableModel(3, 0);
+//		model.addRow(obj);
+//		model.addColumn("BookId");
+//		model.addColumn("title");
+//		model.addColumn("authors");
 		
 		bookListPanel = new Panel();
 		contentPanel.add(bookListPanel, "name_3720736775513");
 		bookListPanel.setLayout(new BorderLayout(0, 0));
-		JTable bookListTable = new JTable(model);
-		contentPanel.add(bookListTable, BorderLayout.CENTER);
-		JScrollPane scrollPane = new JScrollPane(bookListTable);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(16, 203, 362, 266);
 		bookListPanel.add(scrollPane, BorderLayout.CENTER);
+		
+		bookListTable = new JTable();
+		Object[] obj = {"oneData", "two", "three"};
+		bookListTable.setModel(new DefaultTableModel(
+			new Object[][] { obj
+			},
+			new String[] {
+				"Id", "Tytul", "Authors"
+			}
+		));
+
+		
+		bookListTable.setSurrendersFocusOnKeystroke(true);
+		scrollPane.setViewportView(bookListTable);
+//		bookListPanel.revalidate();
+//		bookListPanel.repaint();
 
 		txtBookList = new JTextField();
 		bookListPanel.add(txtBookList, BorderLayout.NORTH);
@@ -114,9 +129,14 @@ public class SwingApp extends JFrame {
 		btnAddBook = new JButton("Add Book");
 		btnAddBook.setPreferredSize(new Dimension(100, 40));
 		bookListPanel.add(btnAddBook, BorderLayout.WEST);
-		btnAddBook.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				initTable(model);
+		btnAddBook.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				initTable(bookListTable);
+				bookListTable.setModel((DefaultTableModel)bookListTable.getModel());
+//				model.fireTableDataChanged();
+//				((DefaultTableModel)bookListTable.getModel()).fireTableDataChanged();
+//				bookListTable.repaint();
 			}
 		});
 
@@ -125,6 +145,7 @@ public class SwingApp extends JFrame {
 		bookListPanel.add(btnDeleteBook, BorderLayout.EAST);
 		btnDeleteBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				removeSelectedRows(bookListTable);
 				bookDeleted.setVisible(true);
 				bookListPanel.setVisible(false);
 			}
@@ -150,11 +171,22 @@ public class SwingApp extends JFrame {
 			}
 		});
 	}
-
-	private void initTable(DefaultTableModel model) {
-		for (int i = 0; i < 5; i++) {
-			model.addRow(new Object[] { "hello", "to", "you" });
+	
+	private void initTable(JTable table) {
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		int columnNum = model.getRowCount();
+		for (int i = 1; i < 6; i++, columnNum++) {
+			model.addRow(new Object[] { columnNum+1, "to", "you" });
 		}
 	}
+	
+	public void removeSelectedRows(JTable table) {
+	   DefaultTableModel model = (DefaultTableModel) table.getModel();
+	   int[] rows = table.getSelectedRows();
+	   for(int i=0;i<rows.length;i++){
+	     model.removeRow(rows[i]-i);
+	   }
+	}
+
 
 }
