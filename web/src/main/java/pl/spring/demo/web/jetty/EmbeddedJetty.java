@@ -39,14 +39,14 @@ public class EmbeddedJetty {
         	public void run() {
         		EmbeddedJetty.logger.debug("Starting application");	
         		
-        		SwingApp2 swingApp2 = new SwingApp2();
-        		swingApp2.setTitle("Simple swing application.");
-        		swingApp2.setSize(800, 600);
-        		swingApp2.setLocationRelativeTo(null);
-        		swingApp2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        		swingApp2.setVisible(true);
+        		SwingApp swingApp = new SwingApp();
+        		swingApp.setTitle("Simple swing application.");
+        		swingApp.setSize(800, 600);
+        		swingApp.setLocationRelativeTo(null);
+        		swingApp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        		swingApp.setVisible(true);
         		
-        		swingApp2.addWindowListener(new WindowAdapter() {
+        		swingApp.addWindowListener(new WindowAdapter() {
         			@Override
         			public void windowClosing(WindowEvent e) {
         				EmbeddedJetty.logger.debug("Closing server");
