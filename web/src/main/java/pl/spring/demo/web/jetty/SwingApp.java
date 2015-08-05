@@ -1,8 +1,10 @@
 package pl.spring.demo.web.jetty;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -18,11 +20,11 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import pl.spring.demo.dao.impl.BookDaoImpl;
+import pl.spring.demo.mapper.BookMapper;
 import pl.spring.demo.service.BookService;
 import pl.spring.demo.service.impl.BookServiceImpl;
 import pl.spring.demo.to.BookTo;
-import java.awt.Panel;
-import java.awt.CardLayout;
 
 public class SwingApp extends JFrame {
 
@@ -42,10 +44,11 @@ public class SwingApp extends JFrame {
 
 	// @Qualifier("bookRepository")
 	// private BookRepository bookRepository;\
-	// private BookDao bookDaoImpl;
+	 private BookDaoImpl bookDaoImpl = new BookDaoImpl();
 
-	// List<BookTo> list =
-	// Collections.synchronizedList(bookService.findAllBooks());
+//	 List<BookTo> list = Collections.synchronizedList(bookService.findAllBooks());
+//	 List<BookTo> list = BookMapper.map2To(bookDaoImpl.findAll());
+	 List<BookTo> list = new ArrayList<BookTo>();
 
 	/**
 	 * Launch the application.
@@ -67,6 +70,8 @@ public class SwingApp extends JFrame {
 	 * Create the frame.
 	 */
 	public SwingApp() {
+//		list.add(BookMapper.map(bookDaoImpl.findOne(1L)));
+		
 		// open/read the application context file
 		// ClassPathXmlApplicationContext context = new
 		// ClassPathXmlApplicationContext("classpath*:spring/web-context.xml");
@@ -78,6 +83,7 @@ public class SwingApp extends JFrame {
 		// (FileEventType)ctx.getBean("fileEventType");
 		// // insert the file event with the spring dao
 
+		setName("mainFrame");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPanel = new JPanel();
@@ -93,9 +99,9 @@ public class SwingApp extends JFrame {
 		bookListPanel = new Panel();
 		contentPanel.add(bookListPanel, "name_3720736775513");
 		bookListPanel.setLayout(new BorderLayout(0, 0));
-		JTable table_1 = new JTable(model);
-		contentPanel.add(table_1, BorderLayout.CENTER);
-		JScrollPane scrollPane = new JScrollPane(table_1);
+		JTable bookListTable = new JTable(model);
+		contentPanel.add(bookListTable, BorderLayout.CENTER);
+		JScrollPane scrollPane = new JScrollPane(bookListTable);
 		bookListPanel.add(scrollPane, BorderLayout.CENTER);
 
 		txtBookList = new JTextField();
@@ -146,8 +152,6 @@ public class SwingApp extends JFrame {
 	}
 
 	private void initTable(DefaultTableModel model) {
-		// bookList =
-		// Collections.synchronizedList(bookServiceImpl.findAllBooks());
 		for (int i = 0; i < 5; i++) {
 			model.addRow(new Object[] { "hello", "to", "you" });
 		}
