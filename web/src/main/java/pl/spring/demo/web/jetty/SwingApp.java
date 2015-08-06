@@ -23,6 +23,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import pl.spring.demo.dao.impl.BookDaoImpl;
+import pl.spring.demo.service.BookService;
+import pl.spring.demo.service.impl.BookServiceImpl;
 import pl.spring.demo.to.BookTo;
 
 public class SwingApp extends JFrame {
@@ -34,7 +36,7 @@ public class SwingApp extends JFrame {
 
 	// @Autowired
 	// @Qualifier("bookServiceImpl")
-//	private BookService bookServiceImpl = new BookServiceImpl();
+	private BookService bookServiceImpl = new BookServiceImpl();
 	private Panel bookListPanel;
 	private Panel bookDeleted;
 	private JTextField BookDeleted;
@@ -48,6 +50,8 @@ public class SwingApp extends JFrame {
 //	 List<BookTo> list = BookMapper.map2To(bookDaoImpl.findAll());
 	 List<BookTo> list = new ArrayList<BookTo>();
 	 private JTable bookListTable;
+	 private JScrollPane deletedBooksPane;
+	 private JTable deletedBooksTable;
 
 	/**
 	 * Launch the application.
@@ -104,7 +108,7 @@ public class SwingApp extends JFrame {
 		bookListPanel.add(scrollPane, BorderLayout.CENTER);
 		
 		bookListTable = new JTable();
-		Object[] obj = {"oneData", "two", "three"};
+		Object[] obj = {"1", "two", "three"};
 		bookListTable.setModel(new DefaultTableModel(
 			new Object[][] { obj
 			},
@@ -133,8 +137,8 @@ public class SwingApp extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				initTable(bookListTable);
-				bookListTable.setModel((DefaultTableModel)bookListTable.getModel());
-//				model.fireTableDataChanged();
+//				bookListTable.setModel((DefaultTableModel)bookListTable.getModel());
+				((DefaultTableModel)bookListTable.getModel()).fireTableDataChanged();
 //				((DefaultTableModel)bookListTable.getModel()).fireTableDataChanged();
 //				bookListTable.repaint();
 			}
@@ -145,9 +149,11 @@ public class SwingApp extends JFrame {
 		bookListPanel.add(btnDeleteBook, BorderLayout.EAST);
 		btnDeleteBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				removeSelectedRows(bookListTable);
 				bookDeleted.setVisible(true);
 				bookListPanel.setVisible(false);
+				moveDeletedRows(bookListTable, deletedBooksTable);
+				removeSelectedRows(bookListTable);
+				
 			}
 		});
 		
@@ -163,9 +169,24 @@ public class SwingApp extends JFrame {
 		BookDeleted.setColumns(10);
 		
 		btnGoToBooklist = new JButton("go to bookList");
-		bookDeleted.add(btnGoToBooklist, BorderLayout.CENTER);
+		bookDeleted.add(btnGoToBooklist, BorderLayout.SOUTH);
+		
+		deletedBooksPane = new JScrollPane();
+		bookDeleted.add(deletedBooksPane, BorderLayout.CENTER);
+		
+		deletedBooksTable = new JTable();
+		deletedBooksTable.setModel(new DefaultTableModel(
+			new Object[][] {},
+			new String[] {"Id", "Tytul", "Authors"}
+		));
+		deletedBooksPane.add(deletedBooksTable);
+		deletedBooksPane.setViewportView(deletedBooksTable);
+
+		
+		
 		btnGoToBooklist.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				((DefaultTableModel)bookListTable.getModel()).fireTableDataChanged();
 				bookListPanel.setVisible(true);
 				BookDeleted.setVisible(false);
 			}
@@ -187,6 +208,21 @@ public class SwingApp extends JFrame {
 	     model.removeRow(rows[i]-i);
 	   }
 	}
+	
+	public void moveDeletedRows(JTable table, JTable table2) {
+	   DefaultTableModel model2 = (DefaultTableModel) table2.getModel();
+	   int[] rows = table.getSelectedRows();
+		   for(int i=0;i<rows.length;i++){
+		     model2.addRow(getRowAt(bookListTable, rows[i]));
+		   }
+	}
 
-
+	public Object[] getRowAt(JTable table, int row) {
+		int colNumber = table.getColumnCount();
+		Object[] result = new Object[colNumber];
+		for (int i = 0; i < colNumber; i++) {
+			result[i] = table.getModel().getValueAt(row, i);
+		}
+		return result;
+	}
 }
